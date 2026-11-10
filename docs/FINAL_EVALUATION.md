@@ -56,7 +56,7 @@ Findings:
 - README: all 17 required sections, plus placeholders for your profile and repository; commands
   re-run from a fresh copy (see §4).
 - Diagrams: Mermaid source, SVG and PNG for each version; checked visually for overlaps.
-- Screenshots: 13 genuine captures with captions (`screenshots/README.md`). 4 Version 1 gameplay captures are
+- Screenshots: 14 genuine captures with captions (`screenshots/README.md`). 4 Version 1 gameplay captures are
   missing and clearly marked.
 - GitHub: **not published.** `gh auth status` reported an invalid token in the build environment.
   `PUBLISHING_TO_GITHUB.md` gives the exact commands.
@@ -71,7 +71,7 @@ path. A test suite, diagrams, report, README and supporting guides.
 
 **2. Supporting evidence.** The recorded pytest run; state-integrity (50 cases) and compromised-LLM
 (24 cases) matrices; the same-bad-model comparison (7 cases); prompt-recording proof that unsolved answers
-never reach the model; 13 genuine screenshots; the fresh-copy install test.
+never reach the model; 14 genuine screenshots; the fresh-copy install test.
 
 **3. Remaining limitations.** No live Gemini evidence; the V1 comparison uses simulated replies. The
 narration guard does not catch indirect hints. The manipulation detector is keyword-based. CI has not yet
@@ -93,4 +93,22 @@ complete.
 
 ## 4. ZIP package verification
 
-Filled in from the verification run of `AI_Escape_Room_COMPLETE_SUBMISSION.zip`. See the appended results below.
+`AI_Escape_Room_COMPLETE_SUBMISSION.zip` (about 24 MB) contains `START_HERE.md`, `assignment/` (the brief and
+the GitHub instructions) and `AI-Escape-Room/`, a clean clone of this repository with its full commit
+history.
+
+Verification run (10 Nov 2026). The ZIP was extracted into a separate temporary directory, then:
+
+| Check | Result |
+|-------|--------|
+| 57 essential files (sources, config, tests, report DOCX/PDF, diagrams, docs, matrices, scripts, CI) present | ✅ 0 missing |
+| Screenshots present | ✅ 14 PNG |
+| `__pycache__`, `*.pyc`, `.pytest_cache`, `venv`, `.env` | ✅ none |
+| Key or token patterns (`AIza…`, `ghp_…`, `github_pat_…`) | ✅ none |
+| Git history in the package | ✅ commits present, clean working tree |
+| Fresh venv + `pip install -r requirements.txt` | ✅ streamlit 1.67.0, google-genai 3.0.0 |
+| `pytest -q` in the extracted copy | ✅ 152 passed, 5 skipped |
+| `streamlit run app/version1.py` / `app/version2.py` | ✅ both `/_stcore/health` → ok |
+
+This file and the matrices were then regenerated with these results, and the ZIP was rebuilt and
+re-checked (file list, secret scan, pytest).
