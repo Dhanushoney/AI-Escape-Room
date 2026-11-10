@@ -22,7 +22,7 @@ Legend: ✅ done and evidenced · ◐ done, but only partly verified · ☐ not 
 | D1–D2 | Working V1 and V2 | ✅ / ◐ | V2 fully verified offline; V1 UI verified, live model play not yet |
 | D3 | Architecture diagram per version | ✅ | `.mmd`, `.svg`, `.png` in `docs/architecture/` |
 | D4 | ≥5 test cases | ✅ | 8 core cases + extended suite; 141 passed / 5 skipped / 0 failed |
-| D5 | 2–3 page report | ✅ | `docs/project_report.md` (~1,700 words) |
+| D5 | 2–3 page report | ✅ | `docs/project_report.md` (~1,430 words, about 3 pages) |
 
 ## Course GitHub instructions
 
