@@ -97,6 +97,8 @@ def render_turns(game: V2Game, show_engine: bool) -> None:
             st.markdown(turn.narration.text)
             verdict = "✅ accepted" if turn.result.success else "⛔ rejected"
             st.caption(f"⚙️ Engine verdict: {verdict} · `{turn.result.code}`")
+            if "llm_unavailable" in (turn.interpreter_fallback, turn.narration.guard_reason):
+                st.caption("⚠️ Gemini was unavailable for this turn (key, quota or network) - rule-based fallback used.")
             if show_engine:
                 st.json(
                     {
