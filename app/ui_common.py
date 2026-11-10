@@ -25,7 +25,7 @@ html, body, [class*="css"] { font-family: 'Inter', system-ui, sans-serif; }
 .stApp {
   background: radial-gradient(ellipse at top, #1d1a14 0%, var(--bg) 60%);
 }
-.block-container { padding-top: 1.6rem; max-width: 1250px; }
+.block-container { padding-top: 3.2rem; max-width: 1250px; }
 h1, h2, h3, .er-title { font-family: 'Cinzel', Georgia, serif !important; letter-spacing: .04em; }
 
 .er-hero {
@@ -33,7 +33,7 @@ h1, h2, h3, .er-title { font-family: 'Cinzel', Georgia, serif !important; letter
   background: linear-gradient(135deg, rgba(217,164,65,.10), rgba(0,0,0,0) 55%), var(--panel);
   margin-bottom: 1rem;
 }
-.er-title { font-size: 2rem; color: var(--gold); margin: 0; line-height: 1.15; }
+.er-title { font-size: 2.1rem !important; color: var(--gold); margin: 0 !important; line-height: 1.15; }
 .er-sub { color: var(--muted); margin: .2rem 0 0 0; font-size: .95rem; }
 .er-badge {
   display: inline-block; font-size: .72rem; font-weight: 600; letter-spacing: .08em;
