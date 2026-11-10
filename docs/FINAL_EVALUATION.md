@@ -104,7 +104,7 @@ Verification run (10 Nov 2026). The ZIP was extracted into a separate temporary 
 | 57 essential files (sources, config, tests, report DOCX/PDF, diagrams, docs, matrices, scripts, CI) present | ✅ 0 missing |
 | Screenshots present | ✅ 14 PNG |
 | `__pycache__`, `*.pyc`, `.pytest_cache`, `venv`, `.env` | ✅ none |
-| Key or token patterns (`AIza…`, `ghp_…`, `github_pat_…`) | ✅ none |
+| Google API key and GitHub token patterns (regex scan) | ✅ none |
 | Git history in the package | ✅ commits present, clean working tree |
 | Fresh venv + `pip install -r requirements.txt` | ✅ streamlit 1.67.0, google-genai 3.0.0 |
 | `pytest -q` in the extracted copy | ✅ 152 passed, 5 skipped |
