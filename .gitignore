@@ -1,0 +1,25 @@
+# Secrets
+.env
+*.env.local
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editors / OS
+.DS_Store
+.vscode/
+.idea/
+
+# Streamlit local secrets
+.streamlit/secrets.toml
+
+# Generated
+*.zip
+docs/live_eval_results.md.tmp
