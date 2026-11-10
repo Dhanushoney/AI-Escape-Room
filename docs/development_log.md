@@ -2,7 +2,7 @@
 
 This log records how the project was built. The Git history in this repository is genuine: each
 commit was made when the work it describes was completed, with real timestamps. All commits were
-made on **10 November 2026 in a single development session** (with an AI coding assistant, as the
+made on **10 November 2026, in two development sessions** (with an AI coding assistant, as the
 course permits). No dates were back-filled.
 
 > **Before submitting:** set your own Git identity (`git config user.name/user.email`) for future
@@ -22,12 +22,22 @@ course permits). No dates were back-filled.
 | 7 | Version 2: LLM intent interpreter with rule fallback, guarded narrator and turn pipeline | Interpreter/narrator separation, manipulation detector, output sanitiser |
 | 8 | Version 2: Streamlit interface with engine verdicts, notebook and lock indicators | UI renders state from Python, not from model text |
 | 9 | UI: fix hero spacing and title size | Found while reviewing the first screenshot |
-| 10 | Add pytest suite: unit, integration, adversarial and state-integrity tests | 146 cases including compromised-LLM and prompt-leak tests |
+| 10 | Add pytest suite: unit, integration, adversarial and state-integrity tests | 146 cases at that commit (157 after session 2), including compromised-LLM and prompt-leak tests |
 | 11 | Add GitHub Actions workflow and live Gemini adversarial evaluation script | CI without a key; script for live evidence |
 | 12 | Version 2 UI: flag turns where Gemini was unavailable | Found while testing the real Gemini client with a dummy key: V2 degraded silently |
 | 13 | Add genuine application screenshots | Captured with headless Chrome from the running apps |
 | 14 | Add architecture diagrams | Mermaid sources rendered to SVG/PNG with mermaid-cli |
 | 15 | Documentation | README, reports, guides |
+
+### Session 2 (same day): zero-omission pass
+
+| # | Commit message | What changed and why |
+|---|----------------|----------------------|
+| 16 | Tests: align IDs with the 12 mandated scenarios… | Explicit TC-01–TC-14 naming; new locked-drawer, invalid-input and 25-attempt tests |
+| 17 | Fix: reject invented variants of real items | **Defect found while capturing screenshots:** "use the golden key" acted as the brass key |
+| 18 | Add reproducible screenshot capture script… | `scripts/capture_screenshots.py`; 8 V2, 2 V1 and 3 testing screenshots plus a mobile check |
+| 19 | Add technical report (DOCX + PDF)… | 3-page body, about 1,320 words with tables; figures in an appendix |
+| 20+ | Documentation, requirement register, compliance matrix | `scripts/build_compliance.py` builds the Markdown and XLSX matrices from one source and refuses COMPLETE without evidence |
 
 ## Problems encountered and decisions
 
@@ -48,7 +58,13 @@ course permits). No dates were back-filled.
    with a generic message.
 7. **Silent degradation.** With a bad key, V2 kept working on rules but the player could not tell.
    Added a per-turn notice.
-8. **Diagram layout.** The player→…→player cycle made Mermaid place the player mid-diagram; split
+8. **generateContent vs the Interactions API.** Google now recommends the Interactions API for new projects
+   but states that `generateContent` "remains fully supported". The stateless call was kept on purpose:
+   V2's design keeps the conversation and state in Python, so server-side conversation storage is not wanted.
+9. **"Golden key" (real defect).** A generic alias ("key") let invented items silently become real ones.
+   The fix detects unknown adjectives in front of one-word item aliases, and also overrides the LLM when it
+   maps such a phrase to a real item.
+10. **Diagram layout.** The player→…→player cycle made Mermaid place the player mid-diagram; split
    into input and output nodes.
 
 ## Not completed in this session

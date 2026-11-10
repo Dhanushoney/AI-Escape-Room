@@ -15,11 +15,13 @@
 | `app/action_validator.py` | V2 | `ActionRequest`, `ALLOWED_ACTIONS`, `INTENT_JSON_SCHEMA`, `parse_action_request()`, `validate_action()` |
 | `app/puzzle_engine.py` | V2 | Answer normalisation, `check_answer()`, `missing_prerequisites()` |
 | `app/game_engine.py` | V2 | `GameEngine` – the only writer of state: `examine_object`, `collect_item`, `use_item`, `attempt_puzzle`, `open_drawer`, `unlock_console`, `unlock_exit`, `check_game_completion`, `reset_game`, `get_hint` |
-| `app/intent_parser.py` | V2 | LLM interpreter (JSON schema) + `rule_based_parse()` fallback / manipulation detector |
+| `app/intent_parser.py` | V2 | LLM interpreter (JSON schema) + `rule_based_parse()` fallback, manipulation detector and invented-item detector (both can override the LLM) |
 | `app/narrator.py` | V2 | LLM narration + `sanitise_narration()` output guard |
 | `app/v2_controller.py` | V2 | `V2Game.process()` – the turn pipeline |
 | `app/version2.py` | V2 | Streamlit entry point |
 | `scripts/live_adversarial_eval.py` | both | Live Gemini adversarial comparison (needs key) |
+| `scripts/capture_screenshots.py` | both | Genuine screenshots from the running apps and from pytest (needs Playwright) |
+| `scripts/build_compliance.py` | docs | Builds the traceability matrix (MD) and compliance matrix (XLSX) |
 
 ## 2. Game design and dependency graph
 
@@ -80,6 +82,13 @@ System prompt = config rendered as prose + rules + solutions. Reply format: narr
 `STATUS: {"inventory": [...], "solved_puzzles": [...], "door_unlocked": bool, "escaped": bool}`.
 The full reply is kept in history so the model can read its previous status; only the last
 `MAX_HISTORY_MESSAGES = 30` messages are sent.
+
+### Gemini API choice
+`GeminiClient` uses the stateless `client.models.generate_content(...)` call with `system_instruction`,
+`temperature` and, for intent interpretation, `response_mime_type="application/json"` plus
+`response_json_schema`. Google recommends the newer Interactions API for new projects, but states that
+`generateContent` remains fully supported. Stateless calls suit V2, where Python, not the server, owns the
+conversation and state.
 
 ## 5. Error handling
 
