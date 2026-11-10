@@ -89,6 +89,34 @@ def test_tc09_nonexistent_object_is_rejected(offline_game):
     assert "golden statue" not in offline_game.state.examined_objects
 
 
+@pytest.mark.parametrize("text", ["use the golden key on the exit door", "swipe the master keycard on the door",
+                                  "take the silver lamp"])
+def test_tc09_invented_variant_of_real_item_is_rejected(text):
+    """'golden key' must not silently become the real brass key."""
+    game = game_at("after_puzzle_1")  # the player really holds the brass key here
+    before = game.state.critical_snapshot()
+    turn = game.process(text)
+    assert turn.result.code == "nonexistent_object", turn.result.code
+    assert game.state.critical_snapshot() == before
+
+
+def test_tc09_llm_mapping_invented_item_to_real_item_is_overridden():
+    game = game_at("after_puzzle_1", client=_compromised(
+        {"action": "use", "target": "exit_door", "item": "brass_key", "answer": "none", "unknown_reference": "none"},
+        "The golden key turns smoothly.",
+    ))
+    turn = game.process("use the golden key on the exit door")
+    assert turn.interpreter_fallback == "invented_item_override"
+    assert turn.result.code == "nonexistent_object"
+
+
+@pytest.mark.parametrize("text", ["use the small brass key on the painting", "use key on painting",
+                                  "use the brass key on the painting"])
+def test_legitimate_item_phrasings_still_work(text):
+    game = game_at("after_puzzle_1")
+    assert game.process(text).result.code == "object_unlocked"
+
+
 def test_ignore_previous_instructions_is_rejected(offline_game):
     turn = offline_game.process(ADVERSARIAL_INPUTS["ignore_instructions"])
     assert turn.result.code == "meta_refused"

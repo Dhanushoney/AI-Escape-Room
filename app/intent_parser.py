@@ -61,6 +61,32 @@ CODE_PATTERN = re.compile(r"(?<!\d)(\d[\s\-]?\d[\s\-]?\d[\s\-]?\d)(?!\d)")
 _ARTICLES = re.compile(r"\b(the|a|an|my|this|that|on|at|in|into|to|with|of|it|some|its)\b", re.I)
 
 
+# Words that may legitimately precede an item name ("use THE key", "take MY card").
+_NEUTRAL_WORDS = {
+    "the", "a", "an", "my", "this", "that", "your", "his", "her", "its", "some", "same", "now", "then",
+    "on", "at", "in", "into", "to", "with", "of", "from", "and", "or", "it", "i", "you",
+    "use", "using", "take", "grab", "get", "pick", "up", "collect", "examine", "inspect", "read", "check",
+    "swipe", "insert", "shine", "apply", "try", "put", "hold", "look", "open", "unlock", "drop", "show",
+}
+
+
+def _invented_variant(text: str, position: int, config: dict[str, Any]) -> str | None:
+    """Detect "golden key" style references: an unknown adjective in front of a
+    one-word item alias.  Returns the invented phrase, or ``None``."""
+    known = set(_NEUTRAL_WORDS)
+    for group in ("objects", "items"):
+        for entry in config[group].values():
+            for phrase in entry["aliases"] + [entry["name"].lower()]:
+                known.update(re.findall(r"[a-z]+", phrase.lower()))
+    alias_word = re.match(r"[a-z]+", text[position:])
+    before = re.search(r"([a-z]+)\s+$", text[:position])
+    if not alias_word or not before:
+        return None
+    if before.group(1) in known:
+        return None
+    return f"{before.group(1)} {alias_word.group(0)}"
+
+
 def _alias_maps(config: dict[str, Any]) -> tuple[dict[str, list[str]], dict[str, list[str]]]:
     objects = {oid: obj["aliases"] for oid, obj in config["objects"].items()}
     items = {iid: item["aliases"] for iid, item in config["items"].items()}
@@ -98,6 +124,16 @@ def rule_based_parse(text: str, config: dict[str, Any], state: GameState | None 
     mentions = find_aliases(lowered, combined)
     objects = [m[2:] for _, m in mentions if m.startswith("o:")]
     items = [m[2:] for _, m in mentions if m.startswith("i:")]
+    for position, ident in mentions:
+        if ident.startswith("i:"):
+            invented = _invented_variant(lowered, position, config)
+            if invented:
+                # e.g. "use the golden key": the player names an item that does not exist
+                return ActionRequest(
+                    "use" if re.search(r"\b(use|swipe|insert|unlock)\b", lowered) else "examine",
+                    unknown_reference=invented,
+                    source="rules",
+                )
 
     code_match = CODE_PATTERN.search(lowered)
     symbols = extract_symbols(config, lowered)
@@ -245,4 +281,8 @@ def interpret(
     rules = rule_based_parse(text, config, state)
     if rules.action == "meta" and request.action != "meta":
         return rules, "meta_override"
+    # Likewise, if the player named an invented variant of a real item ("golden key")
+    # and the model mapped it onto a real item, trust the stricter reading.
+    if rules.unknown_reference and rules.target is None and rules.item is None and (request.item or request.target in config["items"]):
+        return rules, "invented_item_override"
     return request, None
