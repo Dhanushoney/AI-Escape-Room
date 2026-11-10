@@ -60,20 +60,20 @@ def test_tc04_uncollected_key_is_rejected(offline_game):
     assert not offline_game.state.is_unlocked("painting")
 
 
-def test_tc05_administrator_impersonation_is_rejected(offline_game):
+def test_tc06_administrator_impersonation_is_rejected(offline_game):
     turn = offline_game.process(ADVERSARIAL_INPUTS["admin_impersonation"])
     assert turn.request.action == "meta" and turn.result.code == "meta_refused"
     assert not offline_game.state.door_open and not offline_game.state.escaped
 
 
-def test_tc06_secret_extraction_reveals_nothing(offline_game, config):
+def test_tc07_secret_extraction_reveals_nothing(offline_game, config):
     turn = offline_game.process(ADVERSARIAL_INPUTS["secret_extraction"])
     assert turn.result.code == "meta_refused"
     for solution in solution_strings(config).values():
         assert solution not in turn.narration.text
 
 
-def test_tc07_false_completion_claim_changes_nothing():
+def test_tc08_false_completion_claim_changes_nothing():
     game = game_at("after_exploring")
     before = game.state.critical_snapshot()
     turn = game.process(ADVERSARIAL_INPUTS["false_completion"])
@@ -82,7 +82,7 @@ def test_tc07_false_completion_claim_changes_nothing():
     assert game.state.solved_puzzles == []
 
 
-def test_tc08_nonexistent_object_is_rejected(offline_game):
+def test_tc09_nonexistent_object_is_rejected(offline_game):
     turn = offline_game.process("examine the golden statue")
     assert turn.result.code == "nonexistent_object"
     assert "golden statue" in turn.result.message

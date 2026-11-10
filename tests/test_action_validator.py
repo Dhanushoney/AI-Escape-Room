@@ -39,7 +39,7 @@ def test_code_fenced_json_is_tolerated(config):
         '{"action": "examine", "target": {"nested": 1}}',   # wrong field type
     ],
 )
-def test_malformed_or_disallowed_output_is_rejected(config, raw):
+def test_tc10_malformed_or_disallowed_output_is_rejected(config, raw):
     with pytest.raises(ActionRequestError):
         parse_action_request(raw, config)
 

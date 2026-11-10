@@ -52,6 +52,42 @@ def test_tc03_incorrect_code_is_rejected_without_unlocking():
     assert game.state.puzzle_attempts["puzzle_1"] == ["1234"]
 
 
+def test_tc05_locked_drawer_cannot_be_opened_without_code(offline_game):
+    """TC-05: the drawer stays locked and its contents stay hidden until puzzle 1 is solved."""
+    offline_game.process("examine the desk")
+    before = offline_game.state.critical_snapshot()
+    for attempt in ["open the drawer", "pull the drawer open", "take the brass key", "take the cipher card",
+                    "use the uv lamp on the drawer"]:
+        turn = offline_game.process(attempt)
+        assert not turn.result.success, attempt
+    assert offline_game.state.critical_snapshot() == before
+    assert not offline_game.state.is_unlocked("drawer")
+    assert "brass_key" not in offline_game.state.inventory
+
+
+def test_tc11_invalid_input_is_handled_without_state_change(offline_game):
+    """TC-11: gibberish, control characters and oversized input are handled safely."""
+    before = offline_game.state.critical_snapshot()
+    gibberish = offline_game.process("qwzx plorf ???")
+    assert gibberish.result.code == "not_understood"
+    noisy = offline_game.process("examine\x00\x07 the\t\tdesk")
+    assert noisy.player_text == "examine the desk" and noisy.result.success
+    huge = offline_game.process("look " + "A" * 5000)
+    assert len(huge.player_text) <= 500
+    after = offline_game.state.critical_snapshot()
+    assert after["solved_puzzles"] == before["solved_puzzles"] and not after["escaped"]
+
+
+def test_tc14_many_invalid_attempts_never_corrupt_state():
+    """TC-14: 25 consecutive wrong codes are all rejected; the right code still works afterwards."""
+    game = game_at("after_exploring")
+    before = game.state.critical_snapshot()
+    for n in range(25):
+        assert game.process(f"enter {1000 + n} on the drawer").result.code == "incorrect_answer"
+    assert game.state.critical_snapshot() == before
+    assert game.process("enter 2947 on the drawer").result.success
+
+
 def test_full_walkthrough_reaches_escape(offline_game):
     play(offline_game, WALKTHROUGH)
     state = offline_game.state
@@ -79,7 +115,7 @@ def test_puzzle_three_requires_puzzle_two():
     assert "puzzle_3" not in game.state.solved_puzzles
 
 
-def test_repeated_puzzle_attempts_are_idempotent():
+def test_tc14_repeated_puzzle_attempts_are_idempotent():
     game = game_at("after_exploring")
     play(game, ["enter 1111 on the drawer", "enter 2222 on the drawer", "enter 2947 on the drawer"])
     snapshot = game.state.critical_snapshot()
@@ -99,7 +135,7 @@ def test_state_persists_across_turns_within_session(offline_game):
     assert len(offline_game.state.action_history) == 7
 
 
-def test_restart_resets_everything():
+def test_tc12_restart_resets_everything():
     game = game_at("after_puzzle_2")
     game.reset()
     fresh = V2Game(client=None)
@@ -107,7 +143,7 @@ def test_restart_resets_everything():
     assert game.turns == []
 
 
-def test_empty_message_is_ignored(offline_game):
+def test_tc11_empty_message_is_ignored(offline_game):
     before = offline_game.state.to_dict()
     assert offline_game.process("   \n\t ") is None
     assert offline_game.process("") is None
@@ -144,14 +180,14 @@ def test_llm_interpreter_and_narrator_are_used_when_valid():
     assert "red_spine_digits" in game.state.discovered_clues
 
 
-def test_invalid_llm_json_falls_back_to_rules_safely():
+def test_tc10_invalid_llm_json_falls_back_to_rules_safely():
     game = game_at("start", client=MockLLMClient(responses=["{this is not json", "Narration."]))
     turn = game.process("examine the desk")
     assert turn.interpreter_fallback == "invalid_llm_output"
     assert turn.request.source == "rules" and turn.result.success
 
 
-def test_api_errors_fall_back_to_engine_text():
+def test_tc13_api_errors_fall_back_to_engine_text():
     game = game_at("start", client=MockLLMClient(raise_error=LLMTimeoutError("t")))
     turn = game.process("examine the desk")
     assert turn.interpreter_fallback == "llm_unavailable"
