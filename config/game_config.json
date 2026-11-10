@@ -1,0 +1,182 @@
+{
+  "title": "The Last Archive",
+  "subtitle": "A Mystery Escape Room",
+  "room": {
+    "id": "reading_room",
+    "name": "The Reading Room of the Halloway Research Library",
+    "description": "Dust hangs in the green glow of an emergency lamp. A heavy oak study desk sits beneath a tall bookshelf; an antique painting in a brass-locked frame hangs on the east wall. Built into the desk is a locked drawer with a four-dial combination lock. Beside the steel exit door, a digital security console blinks: LOCKDOWN ACTIVE - THREE SEALS REMAIN."
+  },
+  "intro": "You wake on the cold floor of an abandoned research library. A message flickers on the security console: 'Archive lockdown in progress. Authorised staff may release the door by restoring the three seals.' The archivist left a trail of clues before the building was sealed. Follow it - and get out before the lockdown becomes permanent.",
+  "objects": {
+    "desk": {
+      "name": "Study Desk",
+      "icon": "🪑",
+      "aliases": ["desk", "study desk", "table", "blotter", "writing desk"],
+      "description": "A scarred oak desk. A green leather blotter covers its surface, and a torn note is pinned beneath a paperweight. Something glints between the stacked papers.",
+      "examine_text": "Under the paperweight you find a torn note in the archivist's handwriting: \"The drawer remembers history - read the red spines from OLDEST to NEWEST.\" Pressed into the leather blotter is half of a symbol cipher: CRESCENT MOON = 5, STAR = 8. Between the papers lies a small ultraviolet lamp.",
+      "reveals_clues": ["archivist_note", "cipher_half_a"],
+      "reveals_items": ["uv_lamp"],
+      "locked": false
+    },
+    "bookshelf": {
+      "name": "Bookshelf",
+      "icon": "📚",
+      "aliases": ["bookshelf", "shelf", "bookcase", "shelves", "books", "book", "red books", "red spines"],
+      "description": "Floor-to-ceiling shelves of grey archive volumes. Four books with red spines stand out from the rest.",
+      "examine_text": "Each of the four red books carries a publication year and a single handwritten digit on its spine: 'Atlas of Tides' (1923) - 4; 'The Cartographer's Lament' (1887) - 2; 'Silent Engines' (1951) - 7; 'Ledger of Stars' (1902) - 9.",
+      "reveals_clues": ["red_spine_digits"],
+      "reveals_items": [],
+      "locked": false
+    },
+    "painting": {
+      "name": "Antique Painting",
+      "icon": "🖼️",
+      "aliases": ["painting", "picture", "portrait", "canvas", "frame", "antique painting"],
+      "description": "An oil portrait of the library's founder, held in a heavy frame fixed to the wall by a small brass lock.",
+      "examine_text": "The frame is fixed to the wall by a small brass lock. Faint brush marks on the edge of the canvas suggest something was painted on the back.",
+      "locked_text": "The brass lock holds the frame firmly against the wall.",
+      "unlock_item": "brass_key",
+      "unlocked_text": "The brass key turns and the frame swings away from the wall. The back of the canvas looks blank - but the paint has a strange sheen, as if it was meant to be seen under different light.",
+      "reveal_item": "uv_lamp",
+      "reveal_requires_unlocked": true,
+      "reveal_text": "Under ultraviolet light, four symbols glow on the back of the canvas, each tagged with a Roman numeral: a TRIANGLE marked III, a CRESCENT MOON marked I, a CIRCLE marked IV and a STAR marked II.",
+      "reveal_clue": "uv_symbols",
+      "reveals_clues": [],
+      "reveals_items": [],
+      "locked": true
+    },
+    "drawer": {
+      "name": "Locked Drawer",
+      "icon": "🗄️",
+      "aliases": ["drawer", "locked drawer", "desk drawer", "combination lock", "dial lock"],
+      "description": "A drawer built into the desk, secured by a four-dial combination lock.",
+      "examine_text": "The drawer has four brass dials, each numbered 0 to 9. A tiny engraving reads: 'Ordered by history.'",
+      "opened_text": "The dials click into place and the drawer slides open. Inside are a small brass key and a stiff card printed with symbols.",
+      "reveals_items_on_unlock": ["brass_key", "cipher_card"],
+      "puzzle": "puzzle_1",
+      "reveals_clues": [],
+      "reveals_items": [],
+      "locked": true
+    },
+    "console": {
+      "name": "Security Console",
+      "icon": "🖥️",
+      "aliases": ["console", "security console", "terminal", "keypad", "computer", "screen", "panel"],
+      "description": "A digital security console wired to the exit door. Its keypad accepts a four-digit override code.",
+      "examine_text": "The screen reads: 'OVERRIDE REQUIRED. Enter the four-digit archive code. The code is written in the founder's constellation.'",
+      "opened_text": "The console chimes: 'OVERRIDE ACCEPTED. Releasing staff keycard.' A slot opens and ejects a white exit keycard.",
+      "reveals_items_on_unlock": ["exit_keycard"],
+      "puzzle": "puzzle_3",
+      "reveals_clues": [],
+      "reveals_items": [],
+      "locked": true
+    },
+    "exit_door": {
+      "name": "Exit Door",
+      "icon": "🚪",
+      "aliases": ["door", "exit", "exit door", "steel door", "main door", "entrance"],
+      "description": "A heavy steel door held by an electromagnetic lock. A keycard reader glows red beside the handle.",
+      "examine_text": "The keycard reader glows red. A label reads: 'Staff keycard required. Keycards are issued by the security console.'",
+      "unlock_item": "exit_keycard",
+      "requires_puzzles": ["puzzle_3"],
+      "reveals_clues": [],
+      "reveals_items": [],
+      "locked": true
+    }
+  },
+  "items": {
+    "uv_lamp": {
+      "name": "UV Lamp",
+      "icon": "🔦",
+      "aliases": ["uv lamp", "ultraviolet lamp", "uv light", "lamp", "uv", "torch", "flashlight", "black light"],
+      "description": "A palm-sized ultraviolet lamp. Useful for revealing invisible ink.",
+      "location": "desk"
+    },
+    "brass_key": {
+      "name": "Brass Key",
+      "icon": "🗝️",
+      "aliases": ["brass key", "small key", "small brass key", "key"],
+      "description": "A small brass key with a frame-maker's mark.",
+      "location": "drawer"
+    },
+    "cipher_card": {
+      "name": "Cipher Card",
+      "icon": "🃏",
+      "aliases": ["cipher card", "symbol card", "card", "cipher"],
+      "description": "The second half of the archivist's symbol cipher: TRIANGLE = 3, CIRCLE = 6, SQUARE = 1.",
+      "location": "drawer",
+      "reveals_clue_on_collect": "cipher_half_b"
+    },
+    "exit_keycard": {
+      "name": "Exit Keycard",
+      "icon": "💳",
+      "aliases": ["exit keycard", "keycard", "key card", "staff keycard", "white card", "access card"],
+      "description": "A white staff keycard issued by the security console.",
+      "location": "console"
+    }
+  },
+  "clues": {
+    "archivist_note": "Torn note: read the red spines from OLDEST to NEWEST to open the drawer.",
+    "red_spine_digits": "Red spines: Atlas of Tides (1923) = 4, The Cartographer's Lament (1887) = 2, Silent Engines (1951) = 7, Ledger of Stars (1902) = 9.",
+    "cipher_half_a": "Desk blotter cipher: CRESCENT MOON = 5, STAR = 8.",
+    "cipher_half_b": "Cipher card: TRIANGLE = 3, CIRCLE = 6, SQUARE = 1.",
+    "uv_symbols": "Back of the painting (UV): TRIANGLE III, CRESCENT MOON I, CIRCLE IV, STAR II.",
+    "constellation_order": "The founder's constellation, in order: CRESCENT MOON, STAR, TRIANGLE, CIRCLE."
+  },
+  "puzzles": {
+    "puzzle_1": {
+      "name": "Chronology of the Red Spines",
+      "target": "drawer",
+      "type": "code",
+      "requires_clues": ["red_spine_digits", "archivist_note"],
+      "requires_puzzles": [],
+      "requires_items": [],
+      "solution": "2947",
+      "unlocks": "drawer",
+      "success_text": "Ordered by publication year - 1887, 1902, 1923, 1951 - the digits read 2-9-4-7.",
+      "hint": "Every red spine has a year and a digit. The torn note on the desk tells you which order matters."
+    },
+    "puzzle_2": {
+      "name": "The Hidden Constellation",
+      "target": "painting",
+      "type": "sequence",
+      "requires_clues": ["uv_symbols"],
+      "requires_puzzles": ["puzzle_1"],
+      "requires_items": [],
+      "solution": ["moon", "star", "triangle", "circle"],
+      "grants_clue": "constellation_order",
+      "unlocks": null,
+      "success_text": "Read by their Roman numerals, the symbols form the founder's constellation: crescent moon, star, triangle, circle. Somewhere a relay clicks.",
+      "hint": "The Roman numerals beside the glowing symbols give their order. State the four symbols in that order."
+    },
+    "puzzle_3": {
+      "name": "The Archivist's Cipher",
+      "target": "console",
+      "type": "code",
+      "requires_clues": ["constellation_order", "cipher_half_a", "cipher_half_b"],
+      "requires_puzzles": ["puzzle_2"],
+      "requires_items": ["cipher_card"],
+      "solution": "5836",
+      "unlocks": "console",
+      "success_text": "Moon 5, star 8, triangle 3, circle 6. The console accepts 5-8-3-6.",
+      "hint": "Translate the constellation symbol by symbol using both halves of the cipher - one half is on the desk blotter, the other on the card from the drawer."
+    }
+  },
+  "symbols": ["moon", "star", "triangle", "circle", "square"],
+  "symbol_aliases": {
+    "crescent": "moon",
+    "crescent moon": "moon",
+    "moon": "moon",
+    "star": "star",
+    "triangle": "triangle",
+    "circle": "circle",
+    "ring": "circle",
+    "square": "square"
+  },
+  "escape_condition": {
+    "requires_puzzles": ["puzzle_1", "puzzle_2", "puzzle_3"],
+    "requires_item_used": "exit_keycard",
+    "on": "exit_door",
+    "text": "You swipe the keycard. The reader turns green, the magnetic lock releases with a heavy clunk, and cold night air rushes in. You have escaped the Last Archive."
+  }
+}
