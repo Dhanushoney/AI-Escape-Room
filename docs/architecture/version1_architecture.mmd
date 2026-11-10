@@ -1,0 +1,26 @@
+%% Version 1 - the LLM Game Master holds the rules and the game state
+flowchart TB
+    P(["👤 Player types an action"])
+    PO(["👤 Player sees the outcome"])
+    UI["Streamlit interface<br/><i>app/version1.py</i><br/>object cards · chat input · restart"]
+    SM["Conversation / session management<br/><i>V1Session</i> in st.session_state<br/>chat history, last 30 messages"]
+    CTX["Prompt and game context<br/><i>build_system_prompt()</i><br/>story · objects · rules · ALL puzzle solutions"]
+    LLM{{"LLM Game Master<br/>Google Gemini<br/>interprets actions · judges answers · tracks state"}}
+    RESP["Game response<br/>narrative + STATUS line<br/><i>parse_game_master_reply()</i>"]
+    DISP["Player display<br/>journal · inventory · seals<br/>(as reported by the LLM, unverified)"]
+
+    P -->|natural-language action| UI
+    UI -->|player message| SM
+    CTX -->|system instruction| LLM
+    SM -->|history + new message| LLM
+    LLM -->|reply text| RESP
+    RESP -->|narrative + reported status| SM
+    SM -->|session log + status| DISP
+    DISP -->|rendered page| PO
+
+    classDef llm fill:#3b2a10,stroke:#d9a441,color:#f3e7cf;
+    classDef ui fill:#1f2a33,stroke:#6c8ea8,color:#e6eef4;
+    classDef data fill:#262019,stroke:#8a7a5c,color:#ece4d4;
+    class LLM llm;
+    class P,PO,UI,DISP ui;
+    class SM,CTX,RESP data;

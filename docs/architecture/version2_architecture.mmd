@@ -1,0 +1,62 @@
+%% Version 2 - Python owns the rules and the state; the LLM handles language only
+flowchart TB
+    P(["👤 Player types an action"])
+    PO(["👤 Player sees the outcome"])
+    UI["Streamlit interface<br/><i>app/version2.py</i>"]
+    NORM["Input normalisation<br/><i>normalise_player_input()</i><br/>NFKC · strip control chars · 500-char cap"]
+
+    subgraph LANG_IN ["Language layer: interpretation (untrusted output)"]
+        INT{{"LLM intent interpreter<br/>Gemini, JSON schema, temperature 0<br/>sees ids and names only - no solutions"}}
+        RULES["Rule-based parser<br/>fallback + manipulation detector<br/><i>rule_based_parse()</i>"]
+    end
+
+    REQ["Structured action request<br/><i>parse_action_request()</i><br/>schema check · action allowlist · id allowlist"]
+
+    subgraph CORE ["Python game core (authoritative)"]
+        VAL["Action validation engine<br/><i>validate_action()</i>"]
+        ENG["Game engine<br/><i>GameEngine.execute()</i>"]
+        INV["Inventory manager<br/><i>collect_item() · use_item()</i>"]
+        PUZ["Puzzle engine<br/><i>check_answer() · missing_prerequisites()</i>"]
+        STATE[("Game-state manager<br/><i>GameState</i> dataclass<br/>single source of truth")]
+    end
+
+    CFG[("Rule configuration<br/><i>config/game_config.json</i><br/>objects · items · clues · dependencies · solutions")]
+
+    subgraph LANG_OUT ["Language layer: narration (untrusted output)"]
+        NAR{{"LLM narrative generator<br/>receives engine facts + public state summary"}}
+        SAN["Output sanitisation<br/><i>sanitise_narration()</i><br/>leak check · false-escape check · length · fallback"]
+    end
+
+    DISP["Player display<br/>narration · engine verdict badge<br/>inventory · seals · notebook from GameState"]
+
+    P -->|natural-language action| UI
+    UI --> NORM
+    NORM -->|clean text| INT
+    NORM -->|clean text| RULES
+    INT -->|JSON intent| REQ
+    RULES -->|fallback / meta override| REQ
+    REQ -->|ActionRequest| VAL
+    CFG -->|rules| VAL
+    CFG -->|solutions and dependencies| PUZ
+    STATE -->|current state| VAL
+    VAL -->|ok / rejection| ENG
+    ENG --> INV
+    ENG --> PUZ
+    INV -->|validated update| STATE
+    PUZ -->|validated update| STATE
+    ENG -->|ActionResult facts| NAR
+    STATE -->|public summary, no solutions| NAR
+    NAR -->|draft narration| SAN
+    ENG -->|engine message = safe fallback| SAN
+    SAN -->|approved text| DISP
+    STATE -->|authoritative status| DISP
+    DISP -->|rendered page| PO
+
+    classDef llm fill:#3b2a10,stroke:#d9a441,color:#f3e7cf;
+    classDef ui fill:#1f2a33,stroke:#6c8ea8,color:#e6eef4;
+    classDef core fill:#1d2b1f,stroke:#6fbf73,color:#e4f1e5;
+    classDef data fill:#262019,stroke:#8a7a5c,color:#ece4d4;
+    class INT,NAR llm;
+    class P,PO,UI,DISP,NORM ui;
+    class VAL,ENG,INV,PUZ,STATE,REQ,SAN core;
+    class CFG,RULES data;
