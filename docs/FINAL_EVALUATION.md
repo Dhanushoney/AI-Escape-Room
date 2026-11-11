@@ -14,15 +14,16 @@ by `scripts/build_compliance.py`, which refuses to mark a row COMPLETE unless it
 
 | Status | Count |
 |--------|-------|
-| COMPLETE | 229 |
-| PARTIALLY COMPLETE | 5 |
+| COMPLETE | 236 |
+| PARTIALLY COMPLETE | 4 |
 | NOT COMPLETE | 0 |
-| REQUIRES USER ACTION | 21 |
+| REQUIRES USER ACTION | 15 |
 | NOT APPLICABLE | 1 (no rubric supplied) |
 | **Total** | **256** |
 
-**The project is therefore not 100% complete.** Every remaining item needs either a Gemini API key or
-your own GitHub account. None of them can be completed honestly without one.
+**The project is therefore not 100% complete.** The project is published at https://github.com/Dhanushoney/AI-Escape-Room (11 Nov 2026). What remains
+needs a Gemini API key (live Version 1 evidence) or a personal action (submitting the link, pinning the
+repository, preparing to explain the code).
 
 ## 2. Three independent reviews
 
@@ -47,19 +48,21 @@ Findings:
 - Full V2 game played to the escape banner in the browser; phone width (390 px) had 0 px horizontal overflow.
 - The Gemini client reached the real endpoint and handled the dummy-key HTTP 400 gracefully.
 - The XLSX recalculated in LibreOffice: 133 formulas, 0 errors.
-- Secret scan of the working tree and the full Git history (23 commits): 0 hits; no `.env` present.
+- Secret scan of the working tree and the full Git history: 0 hits; no `.env` present.
+- GitHub Actions run #1 on the published repository: **success** (Python 3.11 and 3.12).
 - Three application defects were found and fixed during verification (testing report §6).
 
 ### Review 3 – Submission verification
 - Report: DOCX and PDF; 3-page body (title to references) of about 1,320 words with tables; all 14 required
   sections; 8 references to official documentation, each URL resolved during development; figures in an appendix.
-- README: all 17 required sections, plus placeholders for your profile and repository; commands
+- README: all required sections, with the real username and repository URL filled in; commands
   re-run from a fresh copy (see §4).
 - Diagrams: Mermaid source, SVG and PNG for each version; checked visually for overlaps.
 - Screenshots: 14 genuine captures with captions (`screenshots/README.md`). 4 Version 1 gameplay captures are
   missing and clearly marked.
-- GitHub: **not published.** `gh auth status` reported an invalid token in the build environment.
-  `PUBLISHING_TO_GITHUB.md` gives the exact commands.
+- GitHub: **published and verified** at https://github.com/Dhanushoney/AI-Escape-Room. The `gh` device sign-in was blocked by the build
+  environment's proxy, so the push went through the Claude GitHub App, which the owner installed for this one
+  repository only. Remote `main` was checked to equal the local HEAD, and the README renders on GitHub.
 - ZIP: see §4.
 
 ## 3. Critical evaluation
@@ -74,21 +77,21 @@ path. A test suite, diagrams, report, README and supporting guides.
 never reach the model; 14 genuine screenshots; the fresh-copy install test.
 
 **3. Remaining limitations.** No live Gemini evidence; the V1 comparison uses simulated replies. The
-narration guard does not catch indirect hints. The manipulation detector is keyword-based. CI has not yet
-run on GitHub. The commit history is genuine but covers a single day.
+narration guard does not catch indirect hints. The manipulation detector is keyword-based. The commit
+history is genuine but covers two days of sessions; the earlier commits carry a placeholder author name.
 
 **4. What you must do before submission.**
 1. Add your key to `.env`, play Version 1, and run `python scripts/capture_screenshots.py v1` and
    `python scripts/live_adversarial_eval.py`. Commit the screenshots and `docs/live_eval_results.md`. Update
    the V1 rows in `scripts/build_compliance.py` to match what you observed, then re-run it.
-2. Replace the placeholders (README, LICENSE, report title block), then re-export the report PDF.
-3. Set your Git identity, publish with `docs/PUBLISHING_TO_GITHUB.md`, and confirm the CI badge is green.
-4. Submit the repository URL and pin the repository.
-5. Study the "Explaining your project" table in `demo/DEMONSTRATION_GUIDE.md`.
+2. Fill in the report's title block (`<Student Name>`, `<Student ID>`, `<Course>`, `<repository URL>` → https://github.com/Dhanushoney/AI-Escape-Room),
+   then re-export the PDF.
+3. Submit the repository URL and pin the repository on your profile.
+4. Study the "Explaining your project" table in `demo/DEMONSTRATION_GUIDE.md`.
 
 **5. Has every brief requirement been addressed?** Every requirement has been *addressed*: implemented,
 documented and traced. Not every requirement is *fully evidenced*. The Version 1 live-LLM requirements and
-the GitHub publication requirements need your key and your account. They are marked accordingly, not as
+a few personal steps need your key or your own action. They are marked accordingly, not as
 complete.
 
 ## 4. ZIP package verification

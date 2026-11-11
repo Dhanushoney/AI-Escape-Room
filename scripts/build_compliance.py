@@ -205,8 +205,7 @@ R += [
     ("TS-23", PA + " §5", "Version 1 result recorded per scenario", "Mocked persuaded-model comparison", "test_same_misbehaving_model_corrupts_v1_but_not_v2", TR, P,
      "V1 results use simulated model replies. Real Gemini V1 behaviour is not yet measured; run " + LIVE + "."),
     ("TS-24", PA + " §12", "Unit, integration, state-integrity, invalid-action and adversarial tests", "5 test files", "-", RES, C, ""),
-    ("TS-25", PA + " §12", "CI workflow runs tests without a live key", ".github/workflows/tests.yml", "-", ".github/workflows/tests.yml", P,
-     "The workflow is written but has not run on GitHub yet. Check that it is green after you push."),
+    ("TS-25", PA + " §12", "CI workflow runs tests without a live key", ".github/workflows/tests.yml", "-", ".github/workflows/tests.yml", C, "Run #1 on GitHub Actions: success (Python 3.11 + 3.12)."),
 
     # ---------------- Comparison ----------------
     ("CMP-01", PA + " §6", "Comparison table across 11 dimensions", "README; report Table 1", "-", "README.md;" + RPT, C, ""),
@@ -256,10 +255,9 @@ R += [
     ("S-13", PA + " §8; " + PB + " §4", "Genuine captures only (no mockups)", "Captured by scripts/capture_screenshots.py from running apps / real pytest", "-", "scripts/capture_screenshots.py", C, ""),
 
     # ---------------- GitHub instructions ----------------
-    ("G-01", GI, "Create a GitHub account with a professional username", "-", "-", "", U, "Your action."),
-    ("G-02", GI, "Create a repository for the assignment (AI-Escape-Room)", "gh repo create commands", "-", "docs/PUBLISHING_TO_GITHUB.md", U,
-     "gh was not authenticated in the build environment. Follow PUBLISHING_TO_GITHUB.md."),
-    ("G-03", GI, "Upload source code", "Repository ready to push", "-", "docs/PUBLISHING_TO_GITHUB.md", U, "git push (see guide)."),
+    ("G-01", GI, "Create a GitHub account with a professional username", "Account Dhanushoney", "-", "README.md", C, "GitHub account: Dhanushoney."),
+    ("G-02", GI, "Create a repository for the assignment (AI-Escape-Room)", "Created on github.com (Dhanushoney/AI-Escape-Room)", "-", "README.md", C, "Created: https://github.com/Dhanushoney/AI-Escape-Room"),
+    ("G-03", GI, "Upload source code", "git push to origin main", "-", "README.md", C, "Pushed 26 commits; remote main = local HEAD (verified)."),
     ("G-04", GI, "Upload configuration templates", ".env.example; config/game_config.json", "-", ".env.example", C, ""),
     ("G-05", GI, "Upload documentation and files needed to run", "docs/, README", "-", "README.md", C, ""),
     ("G-06", GI, "README: problem, solution, technologies, install and run", "README sections", "-", "README.md", C, ""),
@@ -281,7 +279,7 @@ R += [
     ("G-20", GI, "Use environment variables and .env.example", "load_settings()", "-", ".env.example", C, ""),
     ("G-21", GI, "Add .env to .gitignore", "-", "-", ".gitignore", C, ""),
     ("G-22", GI, "Share the repository link in the submission", "-", "-", "", U, "Submit the URL after pushing."),
-    ("G-23", GI, "Code, documentation and instructions complete and accessible", "Public repo after push", "-", "README.md", U, "Make the repo public (or give access) and check it in a private window."),
+    ("G-23", GI, "Code, documentation and instructions complete and accessible", "Public repo after push", "-", "README.md", C, "Public repository; README, diagrams and screenshots render (checked in browser)."),
     ("G-24", GI, "Portfolio: one repository per project", "Self-contained repository", "-", "docs/PUBLISHING_TO_GITHUB.md", C, ""),
     ("G-25", GI, "Revisit and improve after submission; pin best projects", "Guidance in publishing guide", "-", "docs/PUBLISHING_TO_GITHUB.md", U, "Pin the repo on your profile. Add the live results later."),
     ("G-26", GI, "Understand the code; explain architecture, decisions and limitations", "Explanation guide in demo guide", "-", "demo/DEMONSTRATION_GUIDE.md", U, "Study the code and the guide before the viva or demo."),
@@ -302,7 +300,7 @@ R += [
     ("SEC-01", PA + " §11", ".env.example with GEMINI_API_KEY and GEMINI_MODEL", "-", "-", ".env.example", C, ""),
     ("SEC-02", PA + " §11", "Suitable .gitignore", "-", "-", ".gitignore", C, ""),
     ("SEC-03", PA + " §11", "No keys/passwords/tokens/env files in repo or ZIP", "Secret scan", "grep + ZIP listing", "docs/FINAL_EVALUATION.md", C, ""),
-    ("SEC-04", PA + " §11", "Use GitHub CLI / Credential Manager; check gh auth status", "gh auth status run: token invalid", "-", "docs/PUBLISHING_TO_GITHUB.md", U, "Run gh auth login yourself (browser flow)."),
+    ("SEC-04", PA + " §11", "Use GitHub CLI / Credential Manager; check gh auth status", "gh auth status checked (sandbox token invalid); Claude GitHub App, one repo only", "-", "docs/PUBLISHING_TO_GITHUB.md", C, "gh device sign-in was blocked by the sandbox proxy; published via the Claude GitHub App limited to this one repository. No token stored."),
     ("SEC-05", PA + " §11", "Never ask for password or token in the conversation", "Browser-based auth only", "-", "docs/PUBLISHING_TO_GITHUB.md", C, ""),
     ("SEC-06", PA + " §11", "Minimum necessary repository permissions", "gh auth login with repo scope only; no PAT stored", "-", "docs/PUBLISHING_TO_GITHUB.md", C, ""),
     ("SEC-07", PA + " §11", "Player never sees sensitive errors", "LLMError.user_message only", "test_tc13_v1_api_error_is_raised_safely_and_history_unchanged", RES, C, ""),
@@ -310,7 +308,7 @@ R += [
     # ---------------- Git history ----------------
     ("GH-01", PA + " §12", "Genuine commits for real development stages", "Commit per milestone", "git log", "docs/development_log.md", C, ""),
     ("GH-02", PA + " §12", "No fabricated commits or dates", "Real timestamps; disclosed in log", "-", "docs/development_log.md", C, ""),
-    ("GH-03", PA + " §12/§14", "Publish if authentication is available; never claim unverified publication", "Not published; stated", "-", "docs/PUBLISHING_TO_GITHUB.md", U, "Publish with the guide, then verify."),
+    ("GH-03", PA + " §12/§14", "Publish if authentication is available; never claim unverified publication", "Pushed and verified (remote HEAD = local HEAD)", "-", "docs/PUBLISHING_TO_GITHUB.md", C, "Published and verified at https://github.com/Dhanushoney/AI-Escape-Room."),
 
     # ---------------- ZIP ----------------
     ("Z-01", PA + " §13", "Filename AI_Escape_Room_COMPLETE_SUBMISSION.zip", "-", "-", "docs/FINAL_EVALUATION.md", C, ""),
@@ -325,7 +323,7 @@ R += [
     ("DOC-03", PA + " §9", "Development log", "-", "-", "docs/development_log.md", C, ""),
     ("DOC-04", PA + " §9", "Demonstration guide", "-", "-", "demo/DEMONSTRATION_GUIDE.md", C, ""),
     ("DOC-05", PA + " §13", "GitHub publishing instructions", "-", "-", "docs/PUBLISHING_TO_GITHUB.md", C, ""),
-    ("DOC-06", PA + " §9", "LICENSE", "MIT with name placeholder", "-", "LICENSE", C, "Replace <Your Name>."),
+    ("DOC-06", PA + " §9", "LICENSE", "MIT licence, copyright Dhanush", "-", "LICENSE", C, ""),
 
     # ---------------- Final evaluation / Zero-omission ----------------
     ("F-01", PA + " §15", "FINAL_REQUIREMENT_COMPLIANCE_MATRIX.xlsx", "Generated by scripts/build_compliance.py", "-", "FINAL_REQUIREMENT_COMPLIANCE_MATRIX.xlsx", C, ""),

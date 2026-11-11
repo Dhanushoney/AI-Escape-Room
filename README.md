@@ -3,8 +3,8 @@
 An interactive LLM-powered escape-room application featuring two development versions, structured
 game-state management, rule-based action validation and adversarial testing.
 
-[![tests](https://github.com/<your-github-username>/AI-Escape-Room/actions/workflows/tests.yml/badge.svg)](https://github.com/<your-github-username>/AI-Escape-Room/actions)
-· Repository: `https://github.com/<your-github-username>/AI-Escape-Room`
+[![tests](https://github.com/Dhanushoney/AI-Escape-Room/actions/workflows/tests.yml/badge.svg)](https://github.com/Dhanushoney/AI-Escape-Room/actions)
+· Repository: `https://github.com/Dhanushoney/AI-Escape-Room`
 · Report: [PDF](docs/AI_Escape_Room_Technical_Report.pdf) / [DOCX](docs/AI_Escape_Room_Technical_Report.docx)
 
 ![Version 2 — escape completed](screenshots/version2/08_successful_escape.png)
@@ -127,7 +127,7 @@ screenshots need a live API key and are not yet included.
 ## Installation
 
 ```bash
-git clone https://github.com/<your-github-username>/AI-Escape-Room.git
+git clone https://github.com/Dhanushoney/AI-Escape-Room.git
 cd AI-Escape-Room
 python -m venv venv
 # Windows: venv\Scripts\activate    macOS/Linux: source venv/bin/activate
@@ -234,8 +234,8 @@ AI-Escape-Room/
 
 ## Author
 
-**<Your Name>** — <one line about you>
-GitHub: [@<your-github-username>](https://github.com/<your-github-username>) · LinkedIn: <optional>
+**Dhanush** (@Dhanushoney)
+GitHub: [@Dhanushoney](https://github.com/Dhanushoney)
 
 Built for Mini Project 01 (AI-Powered Escape Room). AI coding assistance was used, as the course permits;
 the design decisions and limitations are documented in this repository.

@@ -1,9 +1,10 @@
 # Publishing to GitHub
 
-The repository is complete and committed locally. **It has not been published.** In the build environment
-`gh auth status` reported an invalid token, so no push was attempted. Follow these steps on your own
-computer. You never need to paste a password or token anywhere: the GitHub CLI signs you in through your
-browser.
+> **Status (11 Nov 2026): published at https://github.com/Dhanushoney/AI-Escape-Room.** All commits were pushed and verified, and the
+> GitHub Actions test workflow passed. The steps below are kept for reference, for example to publish a copy
+> from your own computer or to set up future projects the same way.
+
+You never need to paste a password or token anywhere: the GitHub CLI signs you in through your browser.
 
 ## 1. One-time setup
 
