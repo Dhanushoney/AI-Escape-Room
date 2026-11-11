@@ -169,8 +169,8 @@ R: list[tuple[str, str, str, str, str, str, str, str]] = [
     ("A-04", PA + " §4", "V1 diagram: player, interface, history, LLM GM, prompt context, response", "version1_architecture.mmd", "-", "docs/architecture/version1_architecture.mmd", C, ""),
     ("A-05", PA + " §4", "V2 diagram: interpreter, validator, state, inventory, puzzle engine, config, narrator", "version2_architecture.mmd", "-", "docs/architecture/version2_architecture.mmd", C, ""),
     ("A-06", PA + " §4", ".mmd sources at the required paths", "-", "-", "docs/architecture/version1_architecture.mmd;docs/architecture/version2_architecture.mmd", C, ""),
-    ("A-07", PA + " §4", "SVG and PNG renders", "mermaid-cli", "-", "docs/architecture/version1_architecture.png;docs/architecture/version2_architecture.png", C, ""),
-    ("A-08", PA + " §4", "Readable, no overlapping components", "Visually inspected after rendering", "-", "docs/architecture/version2_architecture.png", C, ""),
+    ("A-07", PA + " §4", "SVG and PNG renders", "scripts/draw_architecture.py (hand-laid-out SVG) + browser render to PNG", "-", "docs/architecture/version1_architecture.png;docs/architecture/version2_architecture.png", C, ""),
+    ("A-08", PA + " §4", "Readable, no overlapping components", "Hand-placed layout; no crossing connectors; visually inspected", "-", "docs/architecture/version2_architecture.png", C, ""),
     ("A-09", PA + " §4", "Each architecture explained in the report", "Report §8", "-", RPT, C, ""),
 
     # ---------------- Testing ----------------

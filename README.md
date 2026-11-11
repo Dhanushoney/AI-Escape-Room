@@ -110,7 +110,7 @@ narration. Such failures affect wording, not state.
 
 ![Version 2 architecture](docs/architecture/version2_architecture.svg)
 
-Mermaid sources and PNG renders are in [`docs/architecture/`](docs/architecture/).
+PNG renders and Mermaid sources are in [`docs/architecture/`](docs/architecture/); the SVGs are drawn by `scripts/draw_architecture.py`.
 
 ## Screenshots
 

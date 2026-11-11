@@ -22,6 +22,7 @@
 | `scripts/live_adversarial_eval.py` | both | Live Gemini adversarial comparison (needs key) |
 | `scripts/capture_screenshots.py` | both | Genuine screenshots from the running apps and from pytest (needs Playwright) |
 | `scripts/build_compliance.py` | docs | Builds the traceability matrix (MD) and compliance matrix (XLSX) |
+| `scripts/draw_architecture.py` | docs | Draws the two architecture diagrams as SVG (rendered to PNG) |
 
 ## 2. Game design and dependency graph
 
